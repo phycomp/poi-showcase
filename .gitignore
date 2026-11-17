@@ -1,0 +1,15 @@
+# 產物與暫存（本 repo 的 SVG 是刻意版控的交付物，不要 ignore svg/）
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+.venv/
+venv/
+node_modules/
+
+# 重新產生的中間檔
+*.potrace.pnm
+*.potrace.svg
+*.preview.png

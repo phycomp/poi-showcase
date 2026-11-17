@@ -1,0 +1,128 @@
+{
+  "data": "/home/sam/poi-showcase/data/pois.json",
+  "out_dir": "/home/sam/poi-showcase/svg",
+  "width": 950,
+  "height": 660,
+  "files": [
+    {
+      "category": "旅遊景點",
+      "category_id": "attractions",
+      "item": "台北植物園",
+      "item_id": "taipei-botanical-garden",
+      "path": "attractions/taipei-botanical-garden.svg",
+      "bytes": 270259
+    },
+    {
+      "category": "旅遊景點",
+      "category_id": "attractions",
+      "item": "荷花池",
+      "item_id": "lotus-pond",
+      "path": "attractions/lotus-pond.svg",
+      "bytes": 173592
+    },
+    {
+      "category": "旅遊景點",
+      "category_id": "attractions",
+      "item": "棕櫚大道",
+      "item_id": "palm-avenue",
+      "path": "attractions/palm-avenue.svg",
+      "bytes": 168577
+    },
+    {
+      "category": "旅遊景點",
+      "category_id": "attractions",
+      "item": "蘭花園",
+      "item_id": "orchid-house",
+      "path": "attractions/orchid-house.svg",
+      "bytes": 167172
+    },
+    {
+      "category": "交通",
+      "category_id": "transport",
+      "item": "MRT 小南門站（推薦）",
+      "item_id": "mrt-xiaonanmen",
+      "path": "transport/mrt-xiaonanmen.svg",
+      "bytes": 217642
+    },
+    {
+      "category": "交通",
+      "category_id": "transport",
+      "item": "公車 植物園站",
+      "item_id": "bus-botanical-garden",
+      "path": "transport/bus-botanical-garden.svg",
+      "bytes": 219705
+    },
+    {
+      "category": "交通",
+      "category_id": "transport",
+      "item": "公車 三元街口站",
+      "item_id": "bus-sanyuan-street",
+      "path": "transport/bus-sanyuan-street.svg",
+      "bytes": 189335
+    },
+    {
+      "category": "交通",
+      "category_id": "transport",
+      "item": "公車 建國中學站",
+      "item_id": "bus-cksh",
+      "path": "transport/bus-cksh.svg",
+      "bytes": 226939
+    },
+    {
+      "category": "交通",
+      "category_id": "transport",
+      "item": "植物園 → 蓮德品素天地",
+      "item_id": "to-liande",
+      "path": "transport/to-liande.svg",
+      "bytes": 291048
+    },
+    {
+      "category": "交通",
+      "category_id": "transport",
+      "item": "植物園 → 禾甲蒸豆腐食堂",
+      "item_id": "to-hejia",
+      "path": "transport/to-hejia.svg",
+      "bytes": 215998
+    },
+    {
+      "category": "交通",
+      "category_id": "transport",
+      "item": "植物園 → 蕃薯藤自然食堂",
+      "item_id": "to-fanshuteng",
+      "path": "transport/to-fanshuteng.svg",
+      "bytes": 236505
+    },
+    {
+      "category": "素食餐廳",
+      "category_id": "restaurants",
+      "item": "蓮德品素天地",
+      "item_id": "liande",
+      "path": "restaurants/liande.svg",
+      "bytes": 238183
+    },
+    {
+      "category": "素食餐廳",
+      "category_id": "restaurants",
+      "item": "蕃薯藤自然食堂",
+      "item_id": "fanshuteng",
+      "path": "restaurants/fanshuteng.svg",
+      "bytes": 218511
+    },
+    {
+      "category": "素食餐廳",
+      "category_id": "restaurants",
+      "item": "禾甲蒸豆腐食堂",
+      "item_id": "hejia",
+      "path": "restaurants/hejia.svg",
+      "bytes": 201399
+    },
+    {
+      "category": "素食餐廳",
+      "category_id": "restaurants",
+      "item": "三個傻瓜 印度蔬食",
+      "item_id": "three-idiots",
+      "path": "restaurants/three-idiots.svg",
+      "bytes": 203909
+    }
+  ]
+}
