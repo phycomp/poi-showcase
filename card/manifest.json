@@ -1,0 +1,22 @@
+{
+  "title": "台北植物園 · 旅遊資訊卡",
+  "mode": "ljg-card -l（改以 PIL → K-Means → Potrace 產出 SVG）",
+  "generated_images": 0,
+  "sources": [
+    "/home/sam/poi-showcase/data/pois.json",
+    "/home/sam/poi-showcase/台北植物園.md"
+  ],
+  "width": 1080,
+  "height": 1907,
+  "files": [
+    {
+      "path": "台北植物園.svg",
+      "bytes": 944946
+    },
+    {
+      "path": "台北植物園.png",
+      "bytes": 251789
+    }
+  ],
+  "text_runs_checked": 42
+}

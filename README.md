@@ -20,6 +20,10 @@ poi-showcase/
 │   ├── overview.png        # 同一張卡的點陣原圖（驗證用 ground truth）
 │   ├── contact-sheet.png   # 15 張圖卡拼成的 5×3 總表（2092×1200）
 │   └── manifest.json       # 總覽產出清單（尺寸、bytes）
+├── card/
+│   ├── 台北植物園.svg      # 單張旅遊資訊卡（1080×1907 向量）
+│   ├── 台北植物園.png      # 同一張卡的點陣原圖（驗證用 ground truth）
+│   └── manifest.json       # 製卡設定與產出清單
 ├── 台北植物園.md
 └── 台北植物園.pdf
 ```
@@ -47,6 +51,8 @@ poi-showcase/
 全部 viewBox 為 `0 0 950 660`，可直接當縮圖／卡片／社群圖使用。
 
 ## 重新產生
+
+以下指令在 `~/渲染邏輯/img2svg` 目錄執行（產生器不在本 repo 內，本 repo 只收資料與成品）。
 
 需要 PIL / numpy / scikit-learn 與 [Potrace](https://potrace.sourceforge.net/)：
 
@@ -83,11 +89,26 @@ python3 contact_sheet.py \
 
 順序依 `svg/manifest.json`；沒有 manifest 時按檔名排序。`--gutter` / `--margin` / `--title` 可調。
 
-## 三種圖怎麼選
+單張景點資訊卡（把景點、交通、素食、行前提醒濃縮成一張直式卡）：
 
-- **要一眼掃完 15 張** → `overview/contact-sheet.png`（點陣，適合貼給人看）
-- **要一張能縮放不失真的重點摘要** → `overview/overview.svg`（向量，1080×1440 直式）
-- **要單一項目當縮圖／社群圖** → `svg/<分類>/<id>.svg`（向量，950×660 橫式）
+```bash
+python3 景點資訊卡.py \
+  --data poi-showcase/data/pois.json \
+  -o poi-showcase/card/台北植物園.svg \
+  --potrace-path /usr/sbin/potrace -c 16 -w 8
+```
+
+依賴 `圖至SVG.py` 的 `vectorize_image()`；用 `travel-planner` 的資訊架構、
+`ljg-card` 的 `-l` 排版紀律，但生成圖數 0（純排版），最終以 Potrace 產出 SVG。
+
+## 圖怎麼選
+
+| 用途 | 檔案 | 說明 |
+|---|---|---|
+| 一張看完整旅遊資訊 | `card/台北植物園.svg` | 1080×1907 直式：基本資訊、行程速覽、必看景點、交通、素食、行前提醒 |
+| 一眼掃完 15 張 | `overview/contact-sheet.png` | 5×3 總表，2092×1200 |
+| 一張看重點摘要 | `overview/overview.svg` | 1080×1440 直式向量卡 |
+| 看單一項目 | `svg/<分類>/<id>.svg` | 15 個獨立 950×660 橫式卡片 |
 
 ## 流程
 
@@ -113,6 +134,13 @@ python3 contact_sheet.py \
 - `overview.png` 與程式重建的原卡 **逐位元相同**（max diff 0）
 
 Contact sheet 另檢查每一格非空白（縮圖後顏色數 > 20）：**15/15 有內容**。
+
+景點資訊卡（`card/`）用同一套方法驗：
+
+- XML well-formed、`viewBox 0 0 1080 1907`、6,790 個 `<path>`、16 個 `<g>` 全數保留 Potrace transform
+- 逐像素比對：平均色差 **3.46 / 255**、差異面積 **3.2%**、截圖尺寸精準 **(1080, 1907)**
+- 內容覆蓋 54→1851px = **94.2%**，最長純空白橫帶 61px = 3.2%
+- 42 處文字寬度檢查全數通過；內容外框 x 72–1008、y 60–1845，四邊無裁切
 
 ## 已知注意事項
 
