@@ -1,6 +1,19 @@
 {
   "title": "台北植物園 POI Showcase",
   "source": "台北植物園官網 (tpbg.tfri.gov.tw)、KKDAY 旅遊部落格、蓮德品素天地 Facebook",
+  "overview": {
+    "kicker": "POI SHOWCASE · 台北植物園",
+    "title": "台北植物園",
+    "subtitle": "Taipei Botanical Garden",
+    "meta": ["地址 · 台北市中正區南海路53號", "開放 · 每日 5:30-20:00", "免費入園 · 2,000+ 種植物"],
+    "routes_title": "交通路線",
+    "routes": ["mrt-xiaonanmen", "bus-botanical-garden", "bus-sanyuan-street", "bus-cksh"],
+    "highlights_title": "園區看點",
+    "highlights": ["荷花池", "棕櫚大道", "蘭花園", "2,000+ 種植物"],
+    "dining_title": "素食餐廳",
+    "dining": ["liande", "fanshuteng", "hejia", "three-idiots"],
+    "footer": "最佳季節：春（荷花、櫻花）、夏（荷花池）"
+  },
   "categories": [
     {
       "id": "attractions",

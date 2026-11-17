@@ -9,12 +9,17 @@
 
 ```
 poi-showcase/
-├── data/pois.json          # 15 筆 POI 資料（分類、欄位、色票）
+├── data/pois.json          # 15 筆 POI 資料（分類、欄位、色票）＋總覽卡文案
 ├── svg/
 │   ├── attractions/        # 旅遊景點 4
 │   ├── transport/          # 交通 7
 │   ├── restaurants/        # 素食餐廳 4
 │   └── manifest.json       # 檔案清單 + bytes + viewBox
+├── overview/
+│   ├── overview.svg        # 單張總覽圖卡（1080×1440 向量）
+│   ├── overview.png        # 同一張卡的點陣原圖（驗證用 ground truth）
+│   ├── contact-sheet.png   # 15 張圖卡拼成的 5×3 總表（2092×1200）
+│   └── manifest.json       # 總覽產出清單（尺寸、bytes）
 ├── 台北植物園.md
 └── 台北植物園.pdf
 ```
@@ -55,6 +60,35 @@ python3 圖至SVG.py \
 
 `-c` 為 K-Means 分色數（12 色），`-w` 為平行 worker 數。執行時間約 70 秒。
 
+總覽卡（第二種模式，預設 1080×1440，可 `--width/--height` 覆寫）：
+
+```bash
+python3 圖至SVG.py \
+  -m overview \
+  --data poi-showcase/data/pois.json \
+  -o poi-showcase/overview/overview.svg \
+  --potrace-path /usr/sbin/potrace -c 16 -w 8
+```
+
+會同時輸出 `overview.png`（同尺寸 PIL 原卡），並印出每個區塊的 y 範圍與內容覆蓋率。
+
+Contact sheet（把 `svg/` 下所有卡片拼成一張）：
+
+```bash
+python3 contact_sheet.py \
+  poi-showcase/svg \
+  poi-showcase/overview/contact-sheet.png \
+  --cols 5 --cell-width 380
+```
+
+順序依 `svg/manifest.json`；沒有 manifest 時按檔名排序。`--gutter` / `--margin` / `--title` 可調。
+
+## 三種圖怎麼選
+
+- **要一眼掃完 15 張** → `overview/contact-sheet.png`（點陣，適合貼給人看）
+- **要一張能縮放不失真的重點摘要** → `overview/overview.svg`（向量，1080×1440 直式）
+- **要單一項目當縮圖／社群圖** → `svg/<分類>/<id>.svg`（向量，950×660 橫式）
+
 ## 流程
 
 1. `data/pois.json` 每一筆 POI 先用 PIL 畫成 950×660 的卡片（標題、欄位、色塊）。
@@ -69,6 +103,16 @@ python3 圖至SVG.py \
 - 平均色差：**1.95 – 3.03 / 255**
 - 差異面積：**1.8% – 3.1%**（集中在抗鋸齒邊緣）
 - 渲染尺寸：15/15 精準 (950, 660)
+
+總覽卡用同一套方法驗：
+
+- 平均色差：**3.39 / 255**（門檻 12）
+- 差異面積：**3.1%**
+- 渲染尺寸：**(1080, 1440)** 精準
+- 版面：內容覆蓋 62→1414px = **93.9% 畫布高度**，最長純空白橫帶 68px = 4.7%（門檻 15%）
+- `overview.png` 與程式重建的原卡 **逐位元相同**（max diff 0）
+
+Contact sheet 另檢查每一格非空白（縮圖後顏色數 > 20）：**15/15 有內容**。
 
 ## 已知注意事項
 

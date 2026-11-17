@@ -1,0 +1,30 @@
+{
+  "data": "/home/sam/poi-showcase/data/pois.json",
+  "generator": "圖至SVG.py -m overview / contact_sheet.py",
+  "files": [
+    {
+      "kind": "svg",
+      "path": "overview.svg",
+      "description": "單張總覽卡（向量，純排版）",
+      "width": 1080,
+      "height": 1440,
+      "bytes": 654763
+    },
+    {
+      "kind": "png",
+      "path": "overview.png",
+      "description": "總覽卡點陣原圖（像素驗證 ground truth）",
+      "width": 1080,
+      "height": 1440,
+      "bytes": 185404
+    },
+    {
+      "kind": "png",
+      "path": "contact-sheet.png",
+      "description": "15 張圖卡 5×3 總表",
+      "width": 2092,
+      "height": 1200,
+      "bytes": 471973
+    }
+  ]
+}
