@@ -7,16 +7,16 @@
     "/home/sam/poi-showcase/台北植物園.md"
   ],
   "width": 1080,
-  "height": 1907,
+  "height": 1787,
   "files": [
     {
       "path": "台北植物園.svg",
-      "bytes": 944946
+      "bytes": 856988
     },
     {
       "path": "台北植物園.png",
-      "bytes": 251789
+      "bytes": 229081
     }
   ],
-  "text_runs_checked": 42
+  "text_runs_checked": 38
 }

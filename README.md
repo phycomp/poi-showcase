@@ -9,19 +9,19 @@
 
 ```
 poi-showcase/
-├── data/pois.json          # 15 筆 POI 資料（分類、欄位、色票）＋總覽卡文案
+├── data/pois.json          # 15 筆 POI 資料（分類、欄位、色票）＋總覽卡文案（保留已停業紀錄）
 ├── svg/
 │   ├── attractions/        # 旅遊景點 4
 │   ├── transport/          # 交通 7
-│   ├── restaurants/        # 素食餐廳 4
+│   ├── restaurants/        # 素食餐廳 4（含 1 間已停業，做完整資料紀錄）
 │   └── manifest.json       # 檔案清單 + bytes + viewBox
 ├── overview/
-│   ├── overview.svg        # 單張總覽圖卡（1080×1440 向量）
+│   ├── overview.svg        # 單張總覽圖卡（1080×1440 向量，素食 3 間）
 │   ├── overview.png        # 同一張卡的點陣原圖（驗證用 ground truth）
-│   ├── contact-sheet.png   # 15 張圖卡拼成的 5×3 總表（2092×1200）
+│   ├── contact-sheet.png   # 14 張圖卡拼成的 5×3 總表（2092×1200，排除已停業）
 │   └── manifest.json       # 總覽產出清單（尺寸、bytes）
 ├── card/
-│   ├── 台北植物園.svg      # 單張旅遊資訊卡（1080×1907 向量）
+│   ├── 台北植物園.svg      # 單張旅遊資訊卡（1080×1787 向量，素食 3 間）
 │   ├── 台北植物園.png      # 同一張卡的點陣原圖（驗證用 ground truth）
 │   └── manifest.json       # 製卡設定與產出清單
 ├── 台北植物園.md
@@ -49,6 +49,10 @@ poi-showcase/
 | 素食餐廳 | `three-idiots`（三個傻瓜印度蔬食，已停業） | 204 KB |
 
 全部 viewBox 為 `0 0 950 660`，可直接當縮圖／卡片／社群圖使用。
+
+> **展示異動**：已停業的 `three-idiots` 仍保留於 `data/pois.json` 與 `svg/restaurants/`
+> 做為完整資料紀錄，但**不列入素食展示卡**（`card/`、`overview/overview.svg` 皆為 3 間）
+> 與 `overview/contact-sheet.png`（14 格）。過濾在產生器渲染時進行，資料檔未刪除。
 
 ## 重新產生
 
@@ -88,6 +92,14 @@ python3 contact_sheet.py \
 ```
 
 順序依 `svg/manifest.json`；沒有 manifest 時按檔名排序。`--gutter` / `--margin` / `--title` 可調。
+排除已停業項目用 `--exclude three-idiots`（逗號分隔可多筆），僅過濾展示、不刪除原始 SVG：
+
+```bash
+python3 contact_sheet.py \
+  poi-showcase/svg \
+  poi-showcase/overview/contact-sheet.png \
+  --cols 5 --cell-width 380 --exclude three-idiots
+```
 
 單張景點資訊卡（把景點、交通、素食、行前提醒濃縮成一張直式卡）：
 
@@ -105,8 +117,8 @@ python3 景點資訊卡.py \
 
 | 用途 | 檔案 | 說明 |
 |---|---|---|
-| 一張看完整旅遊資訊 | `card/台北植物園.svg` | 1080×1907 直式：基本資訊、行程速覽、必看景點、交通、素食、行前提醒 |
-| 一眼掃完 15 張 | `overview/contact-sheet.png` | 5×3 總表，2092×1200 |
+| 一張看完整旅遊資訊 | `card/台北植物園.svg` | 1080×1787 直式：基本資訊、行程速覽、必看景點、交通、素食（3 間）、行前提醒 |
+| 一眼掃完 14 張 | `overview/contact-sheet.png` | 5×3 總表，2092×1200（排除已停業） |
 | 一張看重點摘要 | `overview/overview.svg` | 1080×1440 直式向量卡 |
 | 看單一項目 | `svg/<分類>/<id>.svg` | 15 個獨立 950×660 橫式卡片 |
 
@@ -127,23 +139,24 @@ python3 景點資訊卡.py \
 
 總覽卡用同一套方法驗：
 
-- 平均色差：**3.39 / 255**（門檻 12）
-- 差異面積：**3.1%**
+- 平均色差：**3.19 / 255**（門檻 12）
+- 差異面積：**2.9%**
 - 渲染尺寸：**(1080, 1440)** 精準
-- 版面：內容覆蓋 62→1414px = **93.9% 畫布高度**，最長純空白橫帶 68px = 4.7%（門檻 15%）
+- 版面：內容覆蓋 62→1414px = **93.9% 畫布高度**，最長純空白橫帶 146px = 10.1%（門檻 15%；少一列素食後空白變大，仍通過）
 - `overview.png` 與程式重建的原卡 **逐位元相同**（max diff 0）
 
-Contact sheet 另檢查每一格非空白（縮圖後顏色數 > 20）：**15/15 有內容**。
+Contact sheet 另檢查每一格非空白（縮圖後顏色數 > 20）：**14/14 有內容**（排除 `three-idiots` 後）。
 
 景點資訊卡（`card/`）用同一套方法驗：
 
-- XML well-formed、`viewBox 0 0 1080 1907`、6,790 個 `<path>`、16 個 `<g>` 全數保留 Potrace transform
-- 逐像素比對：平均色差 **3.46 / 255**、差異面積 **3.2%**、截圖尺寸精準 **(1080, 1907)**
-- 內容覆蓋 54→1851px = **94.2%**，最長純空白橫帶 61px = 3.2%
-- 42 處文字寬度檢查全數通過；內容外框 x 72–1008、y 60–1845，四邊無裁切
+- XML well-formed、`viewBox 0 0 1080 1787`、6,116 個 `<path>`、16 個 `<g>` 全數保留 Potrace transform
+- 逐像素比對：平均色差 **3.34 / 255**、差異面積 **3.1%**、截圖尺寸精準 **(1080, 1787)**
+- 內容覆蓋 54→1725px = **93.8%**，最長純空白橫帶 61px = 3.4%
+- 38 處文字寬度檢查全數通過；內容外框 x 72–1008、y 60–1725，四邊無裁切
 
 ## 已知注意事項
 
 - Potrace 的 `<g transform=...>` **不能丟**。早期版本只抽 `<path>`，導致座標放大 10 倍且上下翻轉。
-- 三個傻瓜印度蔬食已於 2026/11/30 停業，保留是為了比較表完整性。
+- 三個傻瓜印度蔬食已於 2026/11/30 停業；依需求不列入素食展示卡與 contact sheet，
+  但保留於 `data/pois.json` 與 `svg/restaurants/three-idiots.svg` 做完整資料紀錄。
 - 資訊（營業時間、公車路線、價位）為撰寫當下查得，出行前請再確認。

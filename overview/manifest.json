@@ -8,7 +8,7 @@
       "description": "單張總覽卡（向量，純排版）",
       "width": 1080,
       "height": 1440,
-      "bytes": 654763
+      "bytes": 609000
     },
     {
       "kind": "png",
@@ -16,15 +16,15 @@
       "description": "總覽卡點陣原圖（像素驗證 ground truth）",
       "width": 1080,
       "height": 1440,
-      "bytes": 185404
+      "bytes": 173026
     },
     {
       "kind": "png",
       "path": "contact-sheet.png",
-      "description": "15 張圖卡 5×3 總表",
+      "description": "14 張圖卡 5×3 總表（已停業餐廳不列入）",
       "width": 2092,
       "height": 1200,
-      "bytes": 471973
+      "bytes": 447798
     }
   ]
 }
